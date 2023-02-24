@@ -15,6 +15,9 @@ class Database:
         return dict(
             id = id,
             name = name,
+            _id=int(id),                                   
+            file_id=None,
+            caption=None,
             ban_status=dict(
                 is_banned=False,
                 ban_reason="",
@@ -159,7 +162,6 @@ class Database:
     async def get_caption(self, id):
         user = await self.col.find_one({'_id': int(id)})
         return user.get('caption', None)
-
 
 
 db = Database(DATABASE_URI, DATABASE_NAME)

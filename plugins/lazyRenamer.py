@@ -28,9 +28,8 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
 import humanize
-import random
-from Script import script
 from info import ADMINS , FLOOD
+import random
 
 
 

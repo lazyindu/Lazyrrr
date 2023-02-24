@@ -12,3 +12,4 @@ pytz
 hachoir
 Pillow
 humanize
+telegram

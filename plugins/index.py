@@ -10,15 +10,43 @@ from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from utils import temp
 import re
+import os
 from asyncio import sleep
 import humanize
 import random
 from Script import script
 from info import ADMINS , FLOOD
+from telegram import Update, CallbackContext
+import requests
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 lock = asyncio.Lock()
+
+
+def download(update: Update, context: CallbackContext):
+    try:
+        if not os.path.exists("downloads"):
+            os.makedirs("downloads")
+        if len(context.args) == 0:
+            context.bot.send_message(chat_id=update.effective_chat.id, text="Please provide a valid URL.")
+            return
+        url = context.args[0]
+        file_name = url.split("/")[-1]
+        file_path = os.path.join("downloads", file_name)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Downloading...")
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            with open(file_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Download complete!")
+        context.bot.send_document(chat_id=update.effective_chat.id, document=open(file_path, "rb"))
+    except Exception as e:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"An error occurred: {e}")
 
 
 @Client.on_callback_query(filters.regex(r'^index'))
@@ -98,7 +126,7 @@ async def send_for_index(bot, message):
                     InlineKeyboardButton("📝 𝚂𝚃𝙰𝚁𝚃 𝚁𝙴𝙽𝙰𝙼𝙴 📝", callback_data="rename") 
                 ],
                 [
-                    InlineKeyboardButton('Start Index',
+                    InlineKeyboardButton('📇 Start INDEXING 📇',
                                          callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
                 ],
                 [
