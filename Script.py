@@ -106,7 +106,7 @@ ID - <code>{}</code>
 Name - {}
 """
     PROGRESS_BAR = """\n
-╭━━━━❰ Gangster Hacking... ❱━➣
+╭━━━━❰ PROGRESS BAR ❱━➣
 ┣⪼ 🗂️ : {1} | {2}
 ┣⪼ ⏳️ : {0}%
 ┣⪼ 🚀 : {3}/s
