@@ -35,7 +35,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             await message.edit(
                 text="{}\n\n{}".format(ud_type, tmp),               
                 reply_markup=InlineKeyboardMarkup( [[
-                    InlineKeyboardButton("✖️ 𝙲𝙰𝙽𝙲𝙴𝙻 ✖️", callback_data="cancel")
+                    InlineKeyboardButton("✖️ 𝙲𝙰𝙽𝙲𝙴𝙻 ✖️", callback_data="close_data")
                     ]]
                 )
             )
@@ -65,7 +65,7 @@ def TimeFormatter(milliseconds: int) -> str:
         ((str(minutes) + "m, ") if minutes else "") + \
         ((str(seconds) + "s, ") if seconds else "") + \
         ((str(milliseconds) + "ms, ") if milliseconds else "")
-    return tmp[:-2] 
+    return tmp[:-2]
 
 def convert(seconds):
     seconds = seconds % (24 * 3600)
