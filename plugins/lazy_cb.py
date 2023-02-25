@@ -14,28 +14,20 @@ from PIL import Image
 import time
 
 
-@Client.on_callback_query(filters.regex('rename'))
-async def rename(bot, update):
-    date_fa = str(update.message.date)
-    pattern = '%Y-%m-%d %H:%M:%S'
-    date = int(time.mktime(time.strptime(date_fa, pattern)))
-    chat_id = update.message.chat.id
-    id = update.message.reply_to_message_id
-    await update.message.delete()
-    await update.message.reply_text(f"__Please enter the new filename...__\n\nNote:- Extension Not Required",
-                                    reply_to_message_id=id,
-                                    reply_markup=ForceReply(True))
-	
-
 @Client.on_callback_query(filters.regex("upload"))
 async def doc(bot, update):
     type = update.data.split("_")[1]
     new_name = update.message.text
     name = new_name.split(":-")
-    new_filename = os.path.basename(name[1])  # remove any directory path from new_filename
-    dest_dir = "downloads"  # specify the directory to which the file should be moved after renaming
-    file_path = os.path.join(dest_dir, new_filename)
+    new_filename = name[1]
+    file_path = f"downloads/{new_filename}"
     message = update.message.reply_to_message
+    
+    # Check if update.message is not None before accessing its properties
+    if not message:
+        await update.answer("Please reply to a message to upload a file.")
+        return
+    
     file = message.document or message.video or message.audio
     ms = await update.message.edit("⚠️__**Please wait...**__\n__Downloading file to my server...__")
     c_time = time.time()
@@ -52,9 +44,10 @@ async def doc(bot, update):
     dow_file_name = splitpath[1]
     old_file_name =f"downloads/{dow_file_name}"
     # Ensure that the destination directory exists before renaming the file
+    dest_dir = os.path.dirname(file_path)
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
-    os.rename(old_file_name, file_path)
+        os.rename(old_file_name, file_path)
     duration = 0
     metadata = extractMetadata(createParser(file_path))
     if metadata.has("duration"):
