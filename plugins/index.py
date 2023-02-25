@@ -16,6 +16,8 @@ import humanize
 import random
 from Script import script
 from info import ADMINS , FLOOD
+from telegram import Update, CallbackContext
+import requests
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -108,7 +110,8 @@ async def send_for_index(bot, message):
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
             return await message.reply(
-                f'I am currently in **Lazy_Mode**.\nHey **Sweet-Heart**Please tell me what should i do with this file !\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
+                f'I am currently in **Lazy_Mode**.\nHey **Sweet-Heart** - Please tell me what should i do with this file !\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
+                reply_to_message_id=message.id,
                 reply_markup=reply_markup)
         else:
             buttons = [

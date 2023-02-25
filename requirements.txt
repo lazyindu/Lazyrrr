@@ -12,3 +12,5 @@ pytz
 hachoir
 Pillow
 humanize
+aiofiles
+dnspython

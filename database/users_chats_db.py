@@ -10,7 +10,6 @@ class Database:
         self.col = self.db.users
         self.grp = self.db.groups
 
-
     def new_user(self, id, name):
         return dict(
             id = id,
@@ -23,7 +22,6 @@ class Database:
                 ban_reason="",
             ),
         )
-
 
     def new_group(self, id, title):
         return dict(
@@ -85,8 +83,6 @@ class Database:
         b_chats = [chat['id'] async for chat in chats]
         b_users = [user['id'] async for user in users]
         return b_users, b_chats
-    
-
 
     async def add_chat(self, chat, title):
         chat = self.new_group(chat, title)
@@ -97,7 +93,6 @@ class Database:
         chat = await self.grp.find_one({'id':int(chat)})
         return False if not chat else chat.get('chat_status')
     
-
     async def re_enable_chat(self, id):
         chat_status=dict(
             is_disabled=False,
@@ -150,10 +145,11 @@ class Database:
     # Thank you LazyDeveloper for helping us in this Journey
 
     async def set_thumbnail(self, id, file_id):
-        await self.col.update_one({'_id': int(id)}, {'$set': {'file_id': file_id}})
+        await self.col.update_one({'id': int(id)}, {'$set': {'file_id': file_id}})
+        
 
     async def get_thumbnail(self, id):
-        user = await self.col.find_one({'_id': int(id)})
+        user = await self.col.find_one({'id': int(id)})
         return user.get('file_id', None)
 
     async def set_caption(self, id, caption):

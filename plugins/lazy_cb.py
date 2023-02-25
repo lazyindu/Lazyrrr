@@ -10,14 +10,18 @@ from PIL import Image
 import time
 
 
+
 @Client.on_callback_query(filters.regex('rename'))
-async def rename(bot,update):
-	user_id = update.message.chat.id
-	date = update.message.date
-	await update.message.delete()
-	await update.message.reply_text("__𝙿𝚕𝚎𝚊𝚜𝚎 𝙴𝚗𝚝𝚎𝚛 𝙽𝚎𝚠 𝙵𝚒𝚕𝚎𝙽𝚊𝚖𝚎...__",	
-	reply_to_message_id=update.message.reply_to_message.id,  
-	reply_markup=ForceReply(True))
+async def rename(bot, update):
+    date_fa = str(update.message.date)
+    pattern = '%Y-%m-%d %H:%M:%S'
+    date = int(time.mktime(time.strptime(date_fa, pattern)))
+    chat_id = update.message.chat.id
+    id = update.message.reply_to_message_id
+    await update.message.delete()
+    await update.message.reply_text(f"__Please enter the new filename...__\n\nNote:- Extension Not Required",
+                                    reply_to_message_id=id,
+                                    reply_markup=ForceReply(True))
 	
 @Client.on_callback_query(filters.regex("upload"))
 async def doc(bot, update):
