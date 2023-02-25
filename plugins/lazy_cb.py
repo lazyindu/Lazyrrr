@@ -49,7 +49,11 @@ async def doc(bot, update):
     splitpath = path.split("/downloads/")
     dow_file_name = splitpath[1]
     old_file_name =f"downloads/{dow_file_name}"
-    os.rename(old_file_name, file_path)
+    # Ensure that the destination directory exists before renaming the file
+    dest_dir = os.path.dirname(file_path)
+    if not os.path.exists(dest_dir):
+        os.makedirs(dest_dir)
+        os.rename(old_file_name, file_path)
     duration = 0
     metadata = extractMetadata(createParser(file_path))
     if metadata.has("duration"):
