@@ -10,14 +10,8 @@ from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from utils import temp
 import re
-import os
-from asyncio import sleep
 import humanize
-import random
-from Script import script
-from info import ADMINS , FLOOD
-from telegram import Update, CallbackContext
-import requests
+from info import ADMINS 
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
