@@ -18,9 +18,10 @@ async def rename(bot,update):
 	user_id = update.message.chat.id
 	date = update.message.date
 	await update.message.delete()
-	await update.message.reply_text("__𝙿𝚕𝚎𝚊𝚜𝚎 𝙴𝚗𝚝𝚎𝚛 𝙽𝚎𝚠 𝙵𝚒𝚕𝚎𝙽𝚊𝚖𝚎...__",	
-	reply_to_message_id=update.message.reply_to_message.id,  
+	await update.message.reply_text("__Please Enter New FileName...__",	
+	reply_to_message_id=update.message.reply_to_message.message_id,  
 	reply_markup=ForceReply(True))
+    
 	
 
 @Client.on_callback_query(filters.regex("upload"))
