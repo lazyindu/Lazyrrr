@@ -56,7 +56,7 @@ async def rename_start(client, message):
 
 
 
-@Client.on_message((filters.forwarded & filters.private & filters.from_user(LAZY_RENAMERS) (filters.regex("(https://)?(t\.me/|telegram\.me/|telegram\.dog/)(c/)?(\d+|[a-zA-Z_0-9]+)/(\d+)$")) & filters.text ))
+@Client.on_message((filters.forwarded & filters.private & filters.user(LAZY_RENAMERS) (filters.regex("(https://)?(t\.me/|telegram\.me/|telegram\.dog/)(c/)?(\d+|[a-zA-Z_0-9]+)/(\d+)$")) & filters.text ))
 async def send_for_index(bot, message):
   if message.from_user.id in LAZY_RENAMERS:
         if (LAZY_MODE==True):
