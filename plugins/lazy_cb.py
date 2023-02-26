@@ -66,7 +66,7 @@ async def doc(bot, update):
     ph_path = None 
     media = getattr(file, file.media.value)
     c_caption = await db.get_caption(update.message.chat.id)
-    c_thumb = await db.get_thumbnail(update.message.from_user.id)
+    c_thumb = await db.get_thumbnail(update.message.chat.id)
     if c_caption:
          try:
              caption = c_caption.format(filename=new_filename, filesize=humanize.naturalsize(media.file_size), duration=convert(duration))
