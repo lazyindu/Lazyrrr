@@ -151,7 +151,7 @@ class Database:
         
     async def get_thumbnail(self, id):
         try:
-            thumbnail = await self.db.find_one({'id': int(id)})
+            thumbnail = await self.col.find_one({'id': int(id)})
             if thumbnail:
                 return thumbnail.get('file_id')
             else:
