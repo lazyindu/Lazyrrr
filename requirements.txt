@@ -14,3 +14,4 @@ Pillow
 humanize
 aiofiles
 dnspython 
+pynewtonmath

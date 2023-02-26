@@ -30,11 +30,11 @@ async def doc(bot, update):
     name = new_name.split(":-")
     new_filename = name[1]
     file_path = f"downloads/{new_filename}"
-    if new_filename:
-        await bot.send_message(text=f"Name updated: {new_filename}")
-    else:
-        await bot.send_message(text=f"Name did'nt updatd")
-        return
+    # if new_filename:
+    #     await bot.send_message(text=f"Name updated: {new_filename}")
+    # else:
+    #     await bot.send_message(text=f"Name did'nt updatd")
+    #     return
     message = update.message.reply_to_message
     file = message.document or message.video or message.audio
     ms = await update.message.edit("⚠️__**Please wait...**__\n__Downloading file to my server...__")
