@@ -149,7 +149,7 @@ class Database:
     async def set_thumbnail(self, id, file_id):
         await self.col.update_one({'id': int(id)}, {'$set': {'file_id': file_id}})
         
-    async def get_thumbnail(self, chat_id):
+    async def get_thumbnail(self, id):
         try:
             thumbnail = await self.db.find_one({'id': int(id)})
             if thumbnail:
