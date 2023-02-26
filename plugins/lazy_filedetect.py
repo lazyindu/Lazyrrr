@@ -8,6 +8,7 @@ async def refunc(client, message):
     if (message.reply_to_message.reply_markup) and isinstance(message.reply_to_message.reply_markup, ForceReply):
         new_name = message.text
         await message.delete()
+        await message.delete()
         media = await client.get_messages(message.chat.id, message.reply_to_message.id)
         file = media.reply_to_message.document or media.reply_to_message.video or media.reply_to_message.audio
         filename = file.file_name
@@ -19,7 +20,7 @@ async def refunc(client, message):
             out[1]
             out_name = out[-1]
             out_filename = new_name
-            # await message.reply_to_message.delete()
+            await message.reply_to_message.delete()
             if mime == "video":
                 markup = InlineKeyboardMarkup([[
                     InlineKeyboardButton("📁 Document", callback_data="upload_document"),
@@ -52,6 +53,6 @@ async def refunc(client, message):
             else:
                 markup = InlineKeyboardMarkup(
                     [[InlineKeyboardButton("📁 Document", callback_data="upload_document")]])
-            # dont chenge this message.reply_text
-            await message.reply_text(f"**Select the output file type**\n**Output FileName** :- ```{out_filename}```",
+            # dont change this message.reply_text
+            await message.reply_text(f"**Select the output file type**\n**New Name** :- ```{out_filename}```",
                                      reply_to_message_id=mg_id, reply_markup=markup)
