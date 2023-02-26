@@ -28,7 +28,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait
 import humanize
-from info import ADMINS , FLOOD
+from info import ADMINS , FLOOD, LAZY_MODE, LAZY_RENAMERS
 import random
 
 
@@ -40,16 +40,40 @@ async def rename_start(client, message):
     filesize = humanize.naturalsize(file.file_size) 
     fileid = file.file_id
     try:
-        text = f"""**__What do you want me to do with this file.?__**\n\n**File Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
-        buttons = [[ InlineKeyboardButton("📝 𝚂𝚃𝙰𝚁𝚃 𝚁𝙴𝙽𝙰𝙼𝙴 📝", callback_data="rename") ],
-                   [ InlineKeyboardButton("✖️ 𝙲𝙰𝙽𝙲𝙴𝙻 ✖️", callback_data="close_data") ]]
+        text = f"""**__What do you want me to do with this file.?__**\n\n**🪬New Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
+        buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
+                   [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
         await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
         await sleep(FLOOD)
     except FloodWait as e:
         await sleep(e.value)
-        text = f"""**__What do you want me to do with this file.?__**\n\n**File Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
-        buttons = [[ InlineKeyboardButton("📝 𝚂𝚃𝙰𝚁𝚃 𝚁𝙴𝙽𝙰𝙼𝙴 📝", callback_data="rename") ],
-                   [ InlineKeyboardButton("✖️ 𝙲𝙰𝙽𝙲𝙴𝙻 ✖️", callback_data="close_data") ]]
+        text = f"""**__What do you want me to do with this file.?__**\n\n**🪬New Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
+        buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
+                   [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
         await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
     except:
         pass
+
+
+
+@Client.on_message((filters.forwarded & filters.private & filters.from_user(LAZY_RENAMERS) (filters.regex("(https://)?(t\.me/|telegram\.me/|telegram\.dog/)(c/)?(\d+|[a-zA-Z_0-9]+)/(\d+)$")) & filters.text ))
+async def send_for_index(bot, message):
+  if message.from_user.id in LAZY_RENAMERS:
+        if (LAZY_MODE==True):
+            file = getattr(message, message.media.value)
+            filename = file.file_name
+            filesize = humanize.naturalsize(file.file_size) 
+            buttons = [
+                [
+                    InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") 
+                ],
+                [
+                    InlineKeyboardButton('⨳  C L Ф S Ξ  ⨳', callback_data='close_data'),
+                ]
+            ]
+            reply_markup = InlineKeyboardMarkup(buttons)
+            return await message.reply(
+                f'I am currently in **Lazy_Mode**.\nHey **Sweet-Heart** - Please tell me what should i do with this file !\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
+                reply_to_message_id=message.id,
+                reply_markup=reply_markup)
+            

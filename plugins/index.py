@@ -92,10 +92,10 @@ async def send_for_index(bot, message):
             filesize = humanize.naturalsize(file.file_size) 
             buttons = [
                 [
-                    InlineKeyboardButton("📝 𝚂𝚃𝙰𝚁𝚃 𝚁𝙴𝙽𝙰𝙼𝙴 📝", callback_data="rename") 
+                    InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") 
                 ],
                 [
-                    InlineKeyboardButton('📇 Start INDEXING 📇',
+                    InlineKeyboardButton('📇✧✧ S𝚝ar𝚝 iŋdᗴＸi𝚗g ✧✧📇',
                                          callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
                 ],
                 [
