@@ -31,9 +31,9 @@ async def doc(bot, update):
     new_filename = name[1]
     file_path = f"downloads/{new_filename}"
     if new_filename:
-        await bot.send_message(f"Name updated: {new_filename}")
+        await bot.send_message(text=f"Name updated: {new_filename}")
     else:
-        await bot.send_message(f"Name did'nt updatd")
+        await bot.send_message(text=f"Name did'nt updatd")
         return
     message = update.message.reply_to_message
     file = message.document or message.video or message.audio
@@ -65,7 +65,7 @@ async def doc(bot, update):
     ph_path = None 
     media = getattr(file, file.media.value)
     c_caption = await db.get_caption(update.message.chat.id)
-    c_thumb = await db.get_thumbnail(update.message.chat.id)
+    c_thumb = await db.get_thumbnail(update.message.from_user.id)
     if c_caption:
         vid_list = ["filename", "filesize", "duration"]
         new_tex = escape_invalid_curly_brackets(c_caption, vid_list)
