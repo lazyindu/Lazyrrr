@@ -3,7 +3,7 @@ from database.users_chats_db import db
 
 @Client.on_message(filters.private & filters.command(['viewthumb']))
 async def viewthumb(client, message):    
-    thumb = await db.get_thumbnail(message.from_user.id)
+    thumb = await db.get_thumbnail(message.chat.id)
     if thumb:
        await client.send_photo(
 	   chat_id=message.chat.id, 
