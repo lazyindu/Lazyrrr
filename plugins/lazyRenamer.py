@@ -33,7 +33,7 @@ import random
 
 
 
-@Client.on_message(filters.private & (filters.document | filters.audio | filters.video) & filters.user(LAZY_RENAMERS))
+@Client.on_message((filters.forwarded | filters.private) & (filters.document | filters.audio | filters.video) & filters.user(LAZY_RENAMERS))
 async def rename_start(client, message):
     if message.from_user.id in LAZY_RENAMERS :
         if (LAZY_MODE==True):
