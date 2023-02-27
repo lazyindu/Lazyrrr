@@ -1,12 +1,13 @@
 from database.lazy_utils import progress_for_pyrogram, convert, humanbytes
-from pyrogram import Client, filters
-from pyrogram.types import (ForceReply)
+from pyrogram import Client, filters, enums
+from pyrogram.types import ForceReply , CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from database.users_chats_db import db
 from database.lazy_set import escape_invalid_curly_brackets
 from database.lazy_ffmpeg import take_screen_shot, fix_thumb
 from datetime import timedelta
+from Script import script
 import os 
 import random
 import humanize
@@ -126,5 +127,54 @@ async def doc(bot, update):
        os.remove(ph_path) 
 
 
-
-
+@Client.on_callback_query()
+async def lz_cb_handler(client: Client, query: CallbackQuery):
+    if query.data == "getlazythumbnail":
+        buttons = [
+            [
+            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data=""),
+            ],
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.LZTHMB_TEXT.format(query.from_user.mention),
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+    elif query.data == "getlazylink":
+        buttons = [
+            [
+            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="donatelazydev"),
+            ],
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.LZLINK_TEXT.format(query.from_user.mention),
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+    elif query.data == "getlazylink":
+        buttons = [
+            [
+            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="donatelazydev"),
+            ],
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.LZLINK_TEXT.format(query.from_user.mention),
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+    elif query.data == "donatelazydev":
+        buttons = [
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.DNT_TEXT.format(query.from_user.mention),
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )

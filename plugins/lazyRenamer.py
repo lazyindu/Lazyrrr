@@ -33,47 +33,55 @@ import random
 
 
 
-@Client.on_message(filters.private & (filters.document | filters.audio | filters.video) & filters.user(ADMINS))
+@Client.on_message(filters.private & (filters.document | filters.audio | filters.video) & filters.user(LAZY_RENAMERS))
 async def rename_start(client, message):
-    file = getattr(message, message.media.value)
-    filename = file.file_name
-    filesize = humanize.naturalsize(file.file_size) 
-    fileid = file.file_id
-    try:
-        text = f"""**__What do you want me to do with this file.?__**\n\n**🪬New Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
-        buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
-                   [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
-        await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
-        await sleep(FLOOD)
-    except FloodWait as e:
-        await sleep(e.value)
-        text = f"""**__What do you want me to do with this file.?__**\n\n**🪬New Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
-        buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
-                   [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
-        await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
-    except:
-        pass
-
-
-
-@Client.on_message((filters.forwarded & filters.private & filters.user(LAZY_RENAMERS) (filters.regex("(https://)?(t\.me/|telegram\.me/|telegram\.dog/)(c/)?(\d+|[a-zA-Z_0-9]+)/(\d+)$")) & filters.text ))
-async def lazyDev(bot, message):
-  if message.from_user.id in LAZY_RENAMERS:
+    if message.from_user.id in LAZY_RENAMERS :
         if (LAZY_MODE==True):
             file = getattr(message, message.media.value)
             filename = file.file_name
             filesize = humanize.naturalsize(file.file_size) 
-            buttons = [
-                [
-                    InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") 
-                ],
-                [
-                    InlineKeyboardButton('⨳  C L Ф S Ξ  ⨳', callback_data='close_data'),
-                ]
-            ]
-            reply_markup = InlineKeyboardMarkup(buttons)
-            return await message.reply(
-                f'I am currently in **Lazy_Mode**.\nHey **Sweet-Heart** - Please tell me what should i do with this file !\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
-                reply_to_message_id=message.id,
-                reply_markup=reply_markup)
+            last_msg_id = message.forward_from_message_id
+            chat_id = message.forward_from_chat.username or message.forward_from_chat.id
+            fileid = file.file_id
+            try:
+                text = f"""\n⨳ *•.¸♡ L҉ΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**Please tell, what should i do with this file.?**\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n**🎞File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`"""
+                buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
+                           [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
+                await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
+                await sleep(FLOOD)
+            except FloodWait as e:
+                await sleep(e.value)
+                text = f"""\n⨳ *•.¸♡ L҉ΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**__What do you want me to do with this file.?__**\n\n**🪬File Name** :- `{filename}`\n\n**File Size** :- `{filesize}`"""
+                buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
+                           [ InlineKeyboardButton("📸G͢e͢t͢ T͢h͢u͢m͢b͢n͢a͢i͢l͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazythumb") ],
+                           [ InlineKeyboardButton("🔏G͢e͢n͢e͢r͢a͢t͢e͢ L͢i͢n͢k͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazylink") ],
+                           [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
+                await message.reply_text(text=text, reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(buttons))
+            except:
+                pass
+
+
+
+# @Client.on_message((filters.forwarded & filters.private & filters.from_user(LAZY_RENAMERS)))
+# async def for_lazyrenamers(bot, message):
+#   if message.from_user.id in LAZY_RENAMERS:
+#         if (LAZY_MODE==True):
+#             file = getattr(message, message.media.value)
+#             filename = file.file_name
+#             filesize = humanize.naturalsize(file.file_size)
+#             last_msg_id = message.forward_from_message_id
+#             chat_id = message.forward_from_chat.username or message.forward_from_chat.id
+#             buttons = [
+#                 [
+#                     InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") 
+#                 ],
+#                 [
+#                     InlineKeyboardButton('⨳  C L Ф S Ξ  ⨳', callback_data='close_data'),
+#                 ]
+#             ]
+#             reply_markup = InlineKeyboardMarkup(buttons)
+#             return await message.reply_text(
+#                 f'Hey **Sweetie** - Please tell me what should i do with this file !\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
+#                 reply_to_message_id=message.id,
+#                 reply_markup=reply_markup)
             
