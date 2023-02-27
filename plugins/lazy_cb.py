@@ -175,23 +175,24 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
             parse_mode=enums.ParseMode.HTML
         )
 
-@Client.on_callback_query(filters.regex("requestindex"))
-async def req_index(bot, message):
-    last_msg_id = message.forward_from_message_id
-    chat_id = message.forward_from_chat.username or message.forward_from_chat.id
-    link = f"@{message.forward_from_chat.username}"
-    buttons = [
-        [
-            InlineKeyboardButton('Accept Index',
-                                 callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
-        ],
-        [
-            InlineKeyboardButton('Reject Index',
-                                 callback_data=f'index#reject#{chat_id}#{message.id}#{message.from_user.id}'),
+@Client.on_callback_query()
+async def req_index(client, query: CallbackQuery):
+    if query.data == "requestindex":
+        last_msg_id = query.message.forward_from_message_id
+        chat_id = query.message.forward_from_chat.username or query.message.forward_from_chat.id
+        link = f"@{query.message.forward_from_chat.username}"
+        buttons = [
+            [
+                InlineKeyboardButton('Accept Index',
+                                     callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
+            ],
+            [
+                InlineKeyboardButton('Reject Index',
+                                     callback_data=f'index#reject#{chat_id}#{message.id}#{message.from_user.id}'),
+            ]
         ]
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await bot.send_message(LOG_CHANNEL,
-                           f'#IndexRequest\n\nBy : {message.from_user.mention} (<code>{message.from_user.id}</code>)\nChat ID/ Username - <code> {chat_id}</code>\nLast Message ID - <code>{last_msg_id}</code>\nInviteLink - {link}',
-                           reply_markup=reply_markup)
-    await message.reply('ThankYou For the Contribution, Wait For My Moderators to verify the files.')
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await client.send_message(LOG_CHANNEL,
+                               f'#IndexRequest\n\nBy : {query.message.from_user.mention} (<code>{query.message.from_user.id}</code>)\nChat ID/ Username - <code> {chat_id}</code>\nLast Message ID - <code>{last_msg_id}</code>\nInviteLink - {link}',
+                               reply_markup=reply_markup)
+        await query.message.reply('Thank You For the Contribution, Wait For My Moderators to verify the files.')
