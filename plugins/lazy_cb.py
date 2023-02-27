@@ -164,3 +164,13 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+    elif query.data == "requiredbotadmin":
+        buttons = [
+            [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]
+            ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.REQ_BOT_ADMIN_TEXT.format(query.from_user.mention),
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )

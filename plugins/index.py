@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, ChatAdminRequired, UsernameInvalid, UsernameNotModified
-from info import ADMINS
+from info import ADMINS, LAZY_RENAMERS
 from info import INDEX_REQ_CHANNEL as LOG_CHANNEL
 from info import LAZY_MODE 
 from database.ia_filterdb import save_file
@@ -101,12 +101,12 @@ async def send_for_index(bot, message):
                                          callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
                 ],
                 [
-                    InlineKeyboardButton('close', callback_data='close_data'),
+                    InlineKeyboardButton('⨳  C L Ф S Ξ  ⨳', callback_data='close_data'),
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
             return await message.reply(
-                f'\n⨳ *•.¸♡ L҉ΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**__What do you want me to do with this file.?__**\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
+                f'\n⨳ *•.¸♡ LΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**__What do you want me to do with this file.?__**\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
                 reply_to_message_id=message.id,
                 reply_markup=reply_markup)
         else:
@@ -116,7 +116,7 @@ async def send_for_index(bot, message):
                                          callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
                 ],
                 [
-                    InlineKeyboardButton('close', callback_data='close_data'),
+                    InlineKeyboardButton('⨳  C L Ф S Ξ  ⨳', callback_data='close_data'),
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
@@ -128,8 +128,26 @@ async def send_for_index(bot, message):
     if type(chat_id) is int:
         try:
             link = (await bot.create_chat_invite_link(chat_id)).invite_link
-        except ChatAdminRequired:
-            return await message.reply('Make sure i am an admin in the chat and have permission to invite users.')
+        except ChatAdminRequired: 
+            if message.from_user.id in LAZY_RENAMERS:
+                if (LAZY_MODE==True):
+                    file = getattr(message, message.media.value)
+                    filename = file.file_name
+                    filesize = humanize.naturalsize(file.file_size) 
+                    buttons = [
+                        [InlineKeyboardButton('📇✧✧ S𝚝ar𝚝 iŋdᗴＸi𝚗g ✧✧📇', callback_data="requiredbotadmin")],
+                        [InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
+                        [InlineKeyboardButton("📸G͢e͢t͢ T͢h͢u͢m͢b͢n͢a͢i͢l͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazythumbnail") ],
+                        [InlineKeyboardButton("🔏G͢e͢n͢e͢r͢a͢t͢e͢ L͢i͢n͢k͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazylink") ],
+                        [InlineKeyboardButton('⨳  C L Ф S Ξ  ⨳', callback_data='close_data')]
+                    ]
+                    reply_markup = InlineKeyboardMarkup(buttons)
+                    return await message.reply(
+                        f'\n⨳ *•.¸♡ LΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**__What do you want me to do with this file.?__**\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
+                        reply_to_message_id=message.id,
+                        reply_markup=reply_markup)
+            else:
+                return await message.reply('Make sure i am an admin in the chat and have permission to invite users.')
     else:
         link = f"@{message.forward_from_chat.username}"
     buttons = [
