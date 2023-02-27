@@ -8,6 +8,7 @@ from database.lazy_set import escape_invalid_curly_brackets
 from database.lazy_ffmpeg import take_screen_shot, fix_thumb
 from datetime import timedelta
 from Script import script
+from info import LOG_CHANNEL
 import os 
 import random
 import humanize
@@ -22,7 +23,6 @@ async def rename(bot,update):
 	await update.message.reply_text("»»——— 𝙋𝙡𝙚𝙖𝙨𝙚 𝙚𝙣𝙩𝙚𝙧 𝙣𝙚𝙬 𝙛𝙞𝙡𝙚 𝙣𝙖𝙢𝙚...  b",	
 	reply_to_message_id=update.message.reply_to_message.id,  
 	reply_markup=ForceReply(True))  
-
 
 @Client.on_callback_query(filters.regex("upload"))
 async def doc(bot, update):
@@ -174,3 +174,24 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+
+@Client.on_callback_query(filters.regex("requestindex"))
+async def req_index(bot, message):
+    last_msg_id = message.forward_from_message_id
+    chat_id = message.forward_from_chat.username or message.forward_from_chat.id
+    link = f"@{message.forward_from_chat.username}"
+    buttons = [
+        [
+            InlineKeyboardButton('Accept Index',
+                                 callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
+        ],
+        [
+            InlineKeyboardButton('Reject Index',
+                                 callback_data=f'index#reject#{chat_id}#{message.id}#{message.from_user.id}'),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await bot.send_message(LOG_CHANNEL,
+                           f'#IndexRequest\n\nBy : {message.from_user.mention} (<code>{message.from_user.id}</code>)\nChat ID/ Username - <code> {chat_id}</code>\nLast Message ID - <code>{last_msg_id}</code>\nInviteLink - {link}',
+                           reply_markup=reply_markup)
+    await message.reply('ThankYou For the Contribution, Wait For My Moderators to verify the files.')
