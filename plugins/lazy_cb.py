@@ -20,7 +20,7 @@ async def rename(bot,update):
 	user_id = update.message.chat.id
 	date = update.message.date
 	await update.message.delete()
-	await update.message.reply_text("»»——— 𝙋𝙡𝙚𝙖𝙨𝙚 𝙚𝙣𝙩𝙚𝙧 𝙣𝙚𝙬 𝙛𝙞𝙡𝙚 𝙣𝙖𝙢𝙚...  b",	
+	await update.message.reply_text("»»——— 𝙋𝙡𝙚𝙖𝙨𝙚 𝙚𝙣𝙩𝙚𝙧 𝙣𝙚𝙬 𝙛𝙞𝙡𝙚 𝙣𝙖𝙢𝙚...",	
 	reply_to_message_id=update.message.reply_to_message.id,  
 	reply_markup=ForceReply(True))  
 
@@ -123,7 +123,7 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
             [
             InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="thdonatelazydev"),
             ],
-            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="lazyhome") ]
             ]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
@@ -146,7 +146,7 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
             [
             InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="linkdonatelazydev"),
             ],
-            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="lazyhome") ]
             ]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
@@ -164,35 +164,46 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-    elif query.data == "requiredbotadmin":
+    elif query.data == "lazyhome":
+        file = getattr(query.message, query.message.media.value)
+        filesize = humanize.naturalsize(file.file_size) 
+        filename = file.file_name
+        text = f"""\n⨳ *•.¸♡ L҉ΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**Please tell, what should i do with this file.?**\n\n**🎞File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`"""
+        buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="rename") ],
+                           [ InlineKeyboardButton("📸G͢e͢t͢ T͢h͢u͢m͢b͢n͢a͢i͢l͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazythumbnail") ],
+                           [ InlineKeyboardButton("🔏G͢e͢n͢e͢r͢a͢t͢e͢ L͢i͢n͢k͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazylink") ],
+                           [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
+        await query.message.edit_text(
+                    text=text,
+                    reply_markup=reply_markup,
+                    parse_mode=enums.ParseMode.HTML
+                )    
+    elif query.data == "requireauth":
         buttons = [
-            [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]
-            ]
+            [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="close_data") ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
-            text=script.REQ_BOT_ADMIN_TEXT.format(query.from_user.mention),
+            text=script.REQ_AUTH_TEXT.format(query.from_user.mention),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-
-@Client.on_callback_query()
-async def req_index(client, query: CallbackQuery):
-    if query.data == "requestindex":
+    elif query.data == "requestindex":
         last_msg_id = query.message.forward_from_message_id
         chat_id = query.message.forward_from_chat.username or query.message.forward_from_chat.id
         link = f"@{query.message.forward_from_chat.username}"
         buttons = [
             [
                 InlineKeyboardButton('Accept Index',
-                                     callback_data=f'index#accept#{chat_id}#{last_msg_id}#{message.from_user.id}')
+                                     callback_data=f'index#accept#{chat_id}#{last_msg_id}#{query.message.from_user.id}')
             ],
             [
                 InlineKeyboardButton('Reject Index',
-                                     callback_data=f'index#reject#{chat_id}#{message.id}#{message.from_user.id}'),
+                                     callback_data=f'index#reject#{chat_id}#{query.message.id}#{query.message.from_user.id}'),
             ]
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
         await client.send_message(LOG_CHANNEL,
                                f'#IndexRequest\n\nBy : {query.message.from_user.mention} (<code>{query.message.from_user.id}</code>)\nChat ID/ Username - <code> {chat_id}</code>\nLast Message ID - <code>{last_msg_id}</code>\nInviteLink - {link}',
                                reply_markup=reply_markup)
-        await query.message.reply('Thank You For the Contribution, Wait For My Moderators to verify the files.')
+        text=f"""Thank You For the Contribution, Wait For My Moderators to verify the files."""
+        await query.message.edit_text(text=text)

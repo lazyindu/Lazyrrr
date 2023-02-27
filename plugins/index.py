@@ -133,13 +133,17 @@ async def send_for_index(bot, message):
     else:
         link = f"@{message.forward_from_chat.username}"
     buttons = [
-        [
-            InlineKeyboardButton('Request Index',
-                                 callback_data="requestindex")
-        ]
-    ]
+                [InlineKeyboardButton('📇✧✧ REQUEST INDEX ✧✧📇',callback_data="requestindex")],
+                [InlineKeyboardButton("📝✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧📝", callback_data="requireauth")],
+                [ InlineKeyboardButton("📸G͢e͢t͢ T͢h͢u͢m͢b͢n͢a͢i͢l͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazythumbnail") ],
+                [ InlineKeyboardButton("🔏G͢e͢n͢e͢r͢a͢t͢e͢ L͢i͢n͢k͢ ᶜᵒᵐⁱⁿᵍ ˢᵒᵒⁿ", callback_data="getlazylink") ],
+                [InlineKeyboardButton('⨳  C L Ф S Ξ  ⨳', callback_data='close_data')]]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await message.reply_text(text=f'what to do', reply_markup=reply_markup)
+    await message.reply(
+        f'\n⨳ *•.¸♡ LΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**__What do you want me to do with this file.?__**\n\n🪬Chat ID/ Username: <code>{chat_id}</code>\nℹ️Last Message ID: <code>{last_msg_id}</code> \n\n🎞**File Name** :- `{filename}`\n\n⚙️**File Size** :- `{filesize}`',
+        reply_to_message_id=message.id,
+        reply_markup=reply_markup)
+    
 
 
 @Client.on_message(filters.command('setskip') & filters.user(ADMINS))
