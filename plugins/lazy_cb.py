@@ -129,7 +129,6 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text(
             text=script.LZTHMB_TEXT.format(query.from_user.mention),
             reply_markup=reply_markup,
-            reply_to_message_id=query.message.id,
             parse_mode=enums.ParseMode.HTML
         )
     elif query.data == "thdonatelazydev":
@@ -139,7 +138,6 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.DNT_TEXT.format(query.from_user.mention),
-            reply_to_message_id=query.message.id,
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
@@ -153,7 +151,6 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.LZLINK_TEXT.format(query.from_user.mention),
-            reply_to_message_id=query.message.id,
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
@@ -164,7 +161,6 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.DNT_TEXT.format(query.from_user.mention),
-            reply_to_message_id=query.message.id,
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
