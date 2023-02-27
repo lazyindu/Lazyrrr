@@ -139,7 +139,7 @@ async def send_for_index(bot, message):
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await message.edit_text(text=f'what to do', reply_markup=reply_markup)
+    await message.reply_text(text=f'what to do', reply_markup=reply_markup)
 
 
 @Client.on_message(filters.command('setskip') & filters.user(ADMINS))
