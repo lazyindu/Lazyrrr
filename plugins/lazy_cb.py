@@ -29,6 +29,7 @@ async def doc(bot, update):
     type = update.data.split("_")[1]
     new_name = update.message.text
     new_filename = new_name.split(":-")[1]
+    file = update.message.reply_to_message
     file_path = f"downloads/{new_filename}"
     filesize = humanize.naturalsize(file.file_size) 
     # if new_filename:
@@ -38,7 +39,6 @@ async def doc(bot, update):
     #     return
     # message = update.message.reply_to_message
     # file = message.document or message.video or message.audio
-    file = update.message.reply_to_message
     ms = await update.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
     c_time = time.time()
     try:
@@ -132,7 +132,7 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
     if query.data == "getlazythumbnail":
         buttons = [
             [
-            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data=""),
+            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="thdonatelazydev"),
             ],
             [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
             ]
@@ -140,41 +140,42 @@ async def lz_cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text(
             text=script.LZTHMB_TEXT.format(query.from_user.mention),
             reply_markup=reply_markup,
+            reply_to_message_id=query.message.id,
             parse_mode=enums.ParseMode.HTML
         )
-    elif query.data == "getlazylink":
+    elif query.data == "thdonatelazydev":
         buttons = [
-            [
-            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="donatelazydev"),
-            ],
-            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
-            ]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.LZLINK_TEXT.format(query.from_user.mention),
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    elif query.data == "getlazylink":
-        buttons = [
-            [
-            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="donatelazydev"),
-            ],
-            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
-            ]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.LZLINK_TEXT.format(query.from_user.mention),
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    elif query.data == "donatelazydev":
-        buttons = [
-            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="getlazythumbnail") ]
             ]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.DNT_TEXT.format(query.from_user.mention),
+            reply_to_message_id=query.message.id,
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+    elif query.data == "getlazylink":
+        buttons = [
+            [
+            InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="linkdonatelazydev"),
+            ],
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="rename") ]
+            ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.LZLINK_TEXT.format(query.from_user.mention),
+            reply_to_message_id=query.message.id,
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+    elif query.data == "linkdonatelazydev":
+        buttons = [
+            [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="getlazylink") ]
+            ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.DNT_TEXT.format(query.from_user.mention),
+            reply_to_message_id=query.message.id,
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )

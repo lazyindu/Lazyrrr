@@ -32,7 +32,7 @@ async def refunc(client, message):
                 markup = InlineKeyboardMarkup(
                     [[InlineKeyboardButton("📁 Document", callback_data="upload_document")]])
             # Lazy-WarninG -> Please Dont chnage anything after this Line 
-            await message.reply_text(f"**Select the output file type**\n**🪬New Name** :- ```{out_filename}```", reply_to_message_id=mg_id, reply_markup=markup)
+            await message.reply_text(f"**Select the output file type**\n**🎞New Name** :- ```{out_filename}```", reply_to_message_id=mg_id, reply_markup=markup)
 
         except:
             try:
