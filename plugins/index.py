@@ -67,8 +67,10 @@ async def send_for_index(bot, message):
     elif message.forward_from_chat.type == enums.ChatType.CHANNEL:
         last_msg_id = message.forward_from_message_id
         chat_id = message.forward_from_chat.username or message.forward_from_chat.id
+        await message.reply("this mesage is from channel ")
     else:
-        return
+        return await message.reply("This is from private message... You can rename itt ")
+         
     try:
         await bot.get_chat(chat_id)
     except ChannelInvalid:
