@@ -69,7 +69,8 @@ async def send_for_index(bot, message):
         chat_id = message.forward_from_chat.username or message.forward_from_chat.id
         await message.reply("this mesage is from channel ")
     else:
-        return await message.reply("This is from private message... You can rename itt ")
+        await message.reply("This is from private message... You can rename itt ")
+        return
          
     try:
         await bot.get_chat(chat_id)
